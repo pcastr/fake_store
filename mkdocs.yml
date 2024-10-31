@@ -1,0 +1,81 @@
+site_name: Fake Store Docs
+site_url:  https://pcastr.github.io/fake_store
+theme:
+  name: material
+  icon:
+    annotation: material/arrow-right-circle
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: "Trocar para modo claro"
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: "Trocar para modo escuro"
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: "Trocar para preferências do sistema"
+
+  favicon: https://www.enjoei.com.br/favicon.ico
+  logo: assets/Enjoei.svg
+  features:
+    - header.autohide
+    - navigation.tabs
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pcastr/
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/pcastr/
+  annotate:
+    json: [.s2]
+
+
+repo_name: "fake_store"
+repo_url: "https://github.com/pcastr/fake_store"
+
+watch:
+  - fake_store
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+  - autorefs
+
+markdown_extensions:
+  - admonition
+  - pymdownx.tasklist
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
+
+
+nav:
+  - Home: index.md
+  - Camada Raw: raw.md
+
+extra_css:
+  - stylesheets/extra.css
+

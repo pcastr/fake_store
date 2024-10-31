@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "fake-store"
+version = "0.1.0"
+description = ""
+authors = ["pcastr"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+pandas = "^2.2.3"
+fastparquet = "^2024.5.0"
+sqlalchemy = "^2.0.36"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.0.1"
+commitizen = "^3.30.0"
+mkdocs = "^1.6.1"
+taskipy = "^1.14.0"
+pytest = "^8.3.3"
+ruff = "^0.7.1"
+pytest-cov = "^6.0.0"
+mkdocs-material = {extras = ["imaging"], version = "^9.5.43"}
+mkdocstrings-python = "^1.12.2"
+pytest-mock = "^3.14.0"
+
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'double'
+
+
+[tool.pytest.ini.options]
+pythonpath = '.'
+addopts = '-p no:warnings'
+
+[tool.taskipy.tasks]
+
+pre_test = 'task lint'
+test = 'pytest --cov=fake_store -vv'
+post_test = 'coverage html'
+lint = 'ruff check . && ruff check . --diff '
+format = 'ruff check . --fix && ruff format .'
+
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+update_changelog_on_bump = true
+major_version_zero = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
