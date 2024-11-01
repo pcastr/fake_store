@@ -1,7 +1,7 @@
 # Extração de Dados para a "Camada raw"
 
 <p align="center">
-    <img src="./assets/fluxo-geral.svg" alt="Fluxo geral" />
+    <img src="../../assets/fluxo-geral.svg" alt="Fluxo geral" />
 </p>
 
 
