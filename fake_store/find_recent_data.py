@@ -54,8 +54,8 @@ class FindRecentData:
         )
         if dia_recentes_path is None:
             logging.warning(
-                f"""Nenhum dia encontrado para o mês {mes_recentes} do ano 
-                {ano_recentes}."""
+                f"""Nenhum dia encontrado para o mês
+                {mes_recentes} do ano {ano_recentes}."""
             )
             return self._get_empty_results()
 
@@ -71,7 +71,8 @@ class FindRecentData:
         Busca o arquivo mais recente do tipo 'carts' no diretório especificado.
 
         parameters:
-            dia_recentes_path (str): Caminho para o diretório do dia mais recente.
+            dia_recentes_path (str): Caminho para o diretório
+                                     do dia mais recente.
 
         returns:
             str: Caminho do arquivo mais recente de 'carts',
@@ -81,7 +82,8 @@ class FindRecentData:
 
     def buscar_products(self, dia_recentes_path):
         """
-        Busca o arquivo mais recente do tipo 'products' no diretório especificado.
+        Busca o arquivo mais recente do tipo 'products'
+        no diretório especificado.
 
         parameters:
             dia_recentes_path (str): Caminho para o diretório do dia mais recente.
@@ -131,7 +133,8 @@ class FindRecentData:
         específico no diretório fornecido.
 
         parameters:
-            dia_recentes_path (str): Caminho para o diretório do dia mais recente.
+            dia_recentes_path (str): Caminho para o diretório
+                                     do dia mais recente.
             tipo (FileType): Tipo do arquivo a ser buscado
             (carts, products, users, categories).
 

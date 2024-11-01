@@ -96,12 +96,15 @@ class CategoryIngestion:
 if __name__ == "__main__":
     base_dir = "data/raw"
     data_ingestion = FindRecentData(base_dir)
-    (
-        carts_recent_file,
-        products_recent_file,
-        users_recent_file,
-        categories_recent_file,
-    ) = data_ingestion.buscar_arquivos_recentes()
+
+    categories_recent_file = data_ingestion.buscar_categories(
+        data_ingestion.obter_dia_recentes_path(
+            data_ingestion.obter_ano_recentes(),
+            data_ingestion.obter_mes_recentes(
+                data_ingestion.obter_ano_recentes()
+            ),
+        )
+    )
     db_path = "data/silver/fake_store.db"
     ingestion = CategoryIngestion(db_path, categories_recent_file)
     ingestion.insert_categories()

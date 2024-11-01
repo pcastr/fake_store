@@ -161,12 +161,14 @@ class UserIngestion:
 if __name__ == "__main__":
     base_dir = "data/raw"
     data_ingestion = FindRecentData(base_dir)
-    (
-        carts_recent_file,
-        products_recent_file,
-        users_recent_file,
-        categories_recent_file,
-    ) = data_ingestion.buscar_arquivos_recentes()
+    users_recent_file = data_ingestion.buscar_users(
+        data_ingestion.obter_dia_recentes_path(
+            data_ingestion.obter_ano_recentes(),
+            data_ingestion.obter_mes_recentes(
+                data_ingestion.obter_ano_recentes()
+            ),
+        )
+    )
     db_path = "data/silver/fake_store.db"
 
     user_ingestion = UserIngestion(db_path, users_recent_file)

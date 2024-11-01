@@ -101,12 +101,15 @@ if __name__ == "__main__":
     db_path = "data/silver/fake_store.db"
     base_dir = "data/raw"
     data_ingestion = FindRecentData(base_dir)
-    (
-        carts_recent_file,
-        products_recent_file,
-        users_recent_file,
-        categories_recent_file,
-    ) = data_ingestion.buscar_arquivos_recentes()
+
+    products_recent_file = data_ingestion.buscar_products(
+        data_ingestion.obter_dia_recentes_path(
+            data_ingestion.obter_ano_recentes(),
+            data_ingestion.obter_mes_recentes(
+                data_ingestion.obter_ano_recentes()
+            ),
+        )
+    )
     product_ingestion = ProductIngestion(db_path, products_recent_file)
     product_ingestion.insert_products()
     product_ingestion.close()

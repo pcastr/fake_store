@@ -15,20 +15,11 @@ logging.basicConfig(
 
 
 class DataExtractor:
-    """
-    Classe para extrair dados de uma API e salvar em arquivos JSON.
-
-    Attributes:
-        BASE_API_URL (str): URL base da API de dados.
-    """
-
     BASE_API_URL = "https://fakestoreapi.com"
 
     @staticmethod
     def fetch_data(endpoint: str) -> List[dict]:
-        """Busca dados da API correspondente ao endpoint especificado."""
         logging.info(f"Buscando dados de: {endpoint}")
-
         try:
             response = requests.get(endpoint)
             response.raise_for_status()
@@ -43,7 +34,6 @@ class DataExtractor:
 
     @staticmethod
     def validate_data(data: List[dict], data_type: str) -> List[dict]:
-        """Valida e transforma os dados usando Pydantic."""
         validated_data = []
         if data_type == "categories":
             if isinstance(data, list):
@@ -73,8 +63,6 @@ class DataExtractor:
 
     @staticmethod
     def serialize_data(data: List[dict]) -> List[Dict[str, Any]]:
-        """Converte campos datetime em strings para serialização JSON."""
-
         def convert_datetime(obj):
             if isinstance(obj, datetime):
                 return obj.isoformat()
@@ -92,7 +80,6 @@ class DataExtractor:
 
     @staticmethod
     def save_to_json(data: List[dict], endpoint: str):
-        """Salva os dados validados em um arquivo JSON."""
         if not data:
             logging.info("Nenhum dado para salvar.")
             return
@@ -107,7 +94,6 @@ class DataExtractor:
         timestamp = current_date.strftime("%Y%m%d%H%M%S")
         filename = f"{folder_path}/{endpoint}_{timestamp}.json"
 
-        # Serializa os dados antes de salvar
         serialized_data = DataExtractor.serialize_data(data)
 
         try:
@@ -117,66 +103,22 @@ class DataExtractor:
         except Exception as e:
             logging.error(f"Erro ao salvar os dados em JSON: {e}")
 
-    def run_products(self):
-        """Executa o fluxo de extração,
-        validação e salvamento para produtos."""
-        endpoint = f"{self.BASE_API_URL}/products"
+    @classmethod
+    def run_data_extraction(cls, data_type: str):
+        endpoint_map = {
+            "products": f"{cls.BASE_API_URL}/products",
+            "users": f"{cls.BASE_API_URL}/users",
+            "carts": f"{cls.BASE_API_URL}/carts",
+            "categories": f"{cls.BASE_API_URL}/products/categories",
+        }
+        endpoint = endpoint_map.get(data_type)
+        if not endpoint:
+            logging.error(f"Tipo de dados inválido: {data_type}")
+            return
+
         try:
-            data = self.fetch_data(endpoint)
-            validated_data = self.validate_data(data, "products")
-            self.save_to_json(validated_data, "products")
+            data = cls.fetch_data(endpoint)
+            validated_data = cls.validate_data(data, data_type)
+            cls.save_to_json(validated_data, data_type)
         except (requests.RequestException, ValidationError) as e:
-            logging.error(f"Ocorreu um erro na execução para produtos: {e}")
-
-    def run_users(self):
-        """Executa o fluxo de extração, validação e salvamento
-        para usuários."""
-        endpoint = f"{self.BASE_API_URL}/users"
-        try:
-            data = self.fetch_data(endpoint)
-            validated_data = self.validate_data(data, "users")
-            self.save_to_json(validated_data, "users")
-        except (requests.RequestException, ValidationError) as e:
-            logging.error(f"Ocorreu um erro na execução para usuários: {e}")
-
-    def run_carts(self):
-        """Executa o fluxo de extração,
-        validação e salvamento para carrinhos."""
-        endpoint = f"{self.BASE_API_URL}/carts"
-        try:
-            data = self.fetch_data(endpoint)
-            validated_data = self.validate_data(data, "carts")
-            self.save_to_json(validated_data, "carts")
-        except (requests.RequestException, ValidationError) as e:
-            logging.error(f"Ocorreu um erro na execução para carrinhos: {e}")
-
-    def run_categories(self):
-        """Executa o fluxo de extração,
-        validação e salvamento para categorias."""
-        endpoint = f"{self.BASE_API_URL}/products/categories"
-        try:
-            data = self.fetch_data(endpoint)
-            validated_data = self.validate_data(data, "categories")
-            self.save_to_json(validated_data, "categories")
-        except (requests.RequestException, ValidationError) as e:
-            logging.error(f"Ocorreu um erro na execução para categorias: {e}")
-
-
-if __name__ == "__main__":
-    data_type = input(
-        "Digite o tipo de dados a extrair (products, users, "
-        "carts, categories): "
-    )
-
-    extractor = DataExtractor()
-
-    if data_type == "products":
-        extractor.run_products()
-    elif data_type == "users":
-        extractor.run_users()
-    elif data_type == "carts":
-        extractor.run_carts()
-    elif data_type == "categories":
-        extractor.run_categories()
-    else:
-        logging.error(f"Tipo de dados inválido: {data_type}")
+            logging.error(f"Ocorreu um erro na execução para {data_type}: {e}")
