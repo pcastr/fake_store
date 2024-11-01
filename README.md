@@ -48,14 +48,14 @@ poetry install
 poetry shell
 ```
 
-`
+
 3. **Acesse o Streamlit**
 * Rode o Streamlit para visualizar os dashboards e baixar os dados:
 ```bash
-streamlit run dashboard/app.py
+streamlit run app.py
 ```
 
-* Ou acesse Streamlit em https://fakestore.streamlit.app
+* Ou acesse o webapp em https://fakestore.streamlit.app
 
 ## Estrutura de Pastas
 ```Bash
