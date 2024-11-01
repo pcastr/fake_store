@@ -1,0 +1,11 @@
+user_id,total_products,most_frequent_category,most_recent_cart_date
+1,6,men's clothing,2020-03-02 00:00:00
+2,2,men's clothing,2020-03-01 00:00:00
+3,3,jewelery,2020-03-01 00:00:00
+4,2,electronics,2020-03-01 00:00:00
+5,0,sem compra,0000-00-00 00:00:00
+6,0,sem compra,0000-00-00 00:00:00
+7,0,sem compra,0000-00-00 00:00:00
+8,1,women's clothing,2020-03-01 00:00:00
+9,0,sem compra,0000-00-00 00:00:00
+10,0,sem compra,0000-00-00 00:00:00
