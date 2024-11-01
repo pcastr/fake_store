@@ -57,7 +57,7 @@ poetry shell
 streamlit run dashboard/app.py
 ```
 
-* Ou acesse Streamlit em [https://fakestore.streamlit.app/]("https://fakestore.streamlit.app/")
+* Ou acesse Streamlit em https://fakestore.streamlit.app
 
 ## Estrutura de Pastas
 ```Bash
