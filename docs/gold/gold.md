@@ -15,7 +15,7 @@ A tabela final da Camada Gold contém os seguintes campos:
 - **Data Mais Recente de Adição ao Carrinho**: A data e hora em que o usuário adicionou produtos pela última vez ao carrinho.
 - **Categoria com Maior Quantidade de Produtos**: A categoria de produtos em que o usuário tem a maior quantidade de itens adicionados ao carrinho, proporcionando insights sobre suas preferências de compra.
 
-Esses dados são organizados em um arquivo `.csv` que pode ser encontrado na pasta `data/marts/` ou acessado diretamente pelo [webapp Streamlit]("https://fakestore.streamlit.app/).
+Esses dados são organizados em um arquivo `.csv` que pode ser encontrado na pasta `data/marts/` ou acessado diretamente pelo https://fakestore.streamlit.app .
 
 ## Vantagens da Camada Gold
 
