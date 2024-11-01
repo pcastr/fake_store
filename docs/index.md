@@ -29,7 +29,7 @@ Este projeto de Engenharia de Dados realiza o processamento de dados da [Fake St
 
 3. `Camada Gold`: Nesta camada, os dados são desnormalizados e organizados em tabelas otimizadas para análise.
 
-4.`Visualização`: Um web app desenvolvido com Streamlit permite que os usuários visualizem os dados e façam download de relatórios em formato CSV.
+4. `Visualização`: Um web app desenvolvido com Streamlit permite que os usuários visualizem os dados e façam download de relatórios em formato CSV. Link para o webapp: https://fakestore.streamlit.app/
 
 ??? nota
     O arquivo `user_cart_insights.csv` também pode ser encontrado em: data/marts/
