@@ -84,4 +84,4 @@ A documentação do projeto será gerada utilizando o MkDocs, permitindo a cria�
 ```bash
 mkdocs serve
 ```
-Acesse a documentação em http://localhost:8000
+Ou acesse a documentação em https://pcastr.github.io/fake_store
