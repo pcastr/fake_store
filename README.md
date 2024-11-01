@@ -20,7 +20,6 @@ O pipeline segue uma arquitetura de camadas, com os seguintes estágios:
 ## Tecnologias Utilizadas
 
 - **Apache Airflow**: Orquestração do pipeline de dados.
-- **Docker**: Isolamento de ambiente para execução do Airflow e SQLite.
 - **SQLite**: Banco de dados utilizado para armazenar os dados transformados.
 - **Streamlit**: Ferramenta para visualização dos dados e interação com o usuário.
 - **Python**: Linguagem principal do projeto para integração de todas as etapas.
@@ -31,7 +30,6 @@ O pipeline segue uma arquitetura de camadas, com os seguintes estágios:
 
 ### Pré-requisitos
 
-- Docker e Docker Compose instalados
 - Python 3.11.*
 - Poetry
 
