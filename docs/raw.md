@@ -1,50 +1,51 @@
-# Documentação da Camada Raw
+# Extração de Dados para a "Camada raw"
 
-## Visão Geral
+<p align="center">
+    <img src="./assets/fluxo-geral.svg" alt="Fluxo geral" />
+</p>
 
-A **Camada Raw** é a camada responsável por armazenar os dados brutos extraídos da API antes de qualquer transformação. Nesta camada, os dados são salvos diretamente em arquivos Parquet, de forma que mantêm sua estrutura original. O uso de Parquet nesta camada foi pensado para assegurar flexibilidade, performance e escalabilidade, considerando o volume crescente de dados gerado por um e-commerce.
 
-## Estrutura de Armazenamento
-
-Os dados da camada Raw são particionados por data de extração, em uma estrutura de diretórios que facilita a organização e o gerenciamento de múltiplas execuções. Essa organização facilita tanto o versionamento dos dados quanto o processo de ingestão incremental na camada Silver.
-
-Exemplo de estrutura de diretórios:
+A primeira etapa é a extração dos dados da [Fake Store API](https://fakestoreapi.com/). Os dados são salvos no formato original fornecido pela API (`.json`), em uma estrutura de arquivos local que simula uma "camada raw" em uma arquitetura de dados. Cada extração diária gera novos arquivos organizados por data, possibilitando um controle de versão dos dados extraídos:
 
 ```bash
 raw_data/
 └── 2024/
     └── 10/
         └── 30/
-            ├── carts_20241030161720.parquet
-            ├── products_20241030161706.parquet
-            ├── users_20241030161714.parquet
+            ├── carts_20241030161720.json
+            ├── products_20241030161706.json
+            ├── users_20241030161714.json
 ```
 
+### Vantagens deste Método
 
-## Justificativas para o Uso de Parquet
+1. **Rastreamento de Histórico**: A organização por data permite manter um histórico detalhado de extrações, facilitando auditorias e análises temporais, essenciais para entender tendências e identificar mudanças no comportamento do usuário.
 
-### 1. Formato Colunar
-O Parquet é um formato colunar que permite um armazenamento mais eficiente e compactado, especialmente útil para dados de grande volume. Como o formato Parquet armazena os dados de forma colunar, é possível:
-   - **Economizar espaço em disco:** O Parquet utiliza compressão eficiente nas colunas, reduzindo o tamanho dos arquivos e os custos de armazenamento.
-   - **Melhorar a performance de leitura:** Como a leitura pode ser feita apenas nas colunas necessárias, consultas específicas se tornam mais rápidas e menos custosas.
+2. **Preservação do Estado Original**: Manter os dados no formato `.json`, como extraído, preserva o estado original da informação. Isso permite análise histórica mesmo que a API mude, sem perda de estrutura dos dados.
 
-### 2. Escalabilidade
-O uso de arquivos Parquet permite que o pipeline de dados possa escalar de forma simples e eficiente:
-   - **Processamento em lote:** É possível agrupar vários arquivos Parquet para leitura em uma única execução, o que facilita o processamento e a carga dos dados na camada Silver.
-   - **Compatibilidade com tecnologias de Big Data:** Caso o volume de dados aumente, arquivos Parquet são facilmente integrados a soluções de Big Data (como Apache Spark), permitindo o processamento distribuído.
+3. **Disponibilidade de Dados Brutos**: A camada raw serve como uma fonte fiel de dados brutos que pode ser processada novamente, garantindo uma camada inicial de persistência sem transformações.
 
-### 3. Manutenção de Dados Brutos
-O armazenamento em Parquet possibilita que os dados brutos sejam mantidos para auditoria ou reprocessamento futuro:
-   - **Reprodutibilidade:** Ter uma cópia dos dados brutos permite recriar etapas de processamento ou corrigir problemas na camada Silver sem depender de novas extrações da API.
-   - **Histórico Completo:** O particionamento por data facilita a organização dos dados e permite o controle do histórico de execuções, essencial para auditoria e conformidade.
+### Por que Utilizar o Formato `.json`
 
-## Práticas de Manutenção e Limpeza
+O `.json` é flexível, amplamente suportado e permite o armazenamento de dados estruturados (objetos aninhados, listas) de forma clara, facilitando o uso em ferramentas de processamento de dados e linguagens de programação.
 
-Como os dados em Parquet são armazenados em arquivos diários, será estabelecido um processo de limpeza e arquivamento. Arquivos mais antigos podem ser compactados ou movidos para um repositório de longo prazo, garantindo que o espaço de armazenamento ativo se mantenha otimizado.
+### Melhorias para Cenários de Grande Porte
 
-## Resumo
+Para um e-commerce de grande porte que coleta dados diariamente, o `.json` pode se tornar ineficiente a longo prazo devido ao armazenamento pesado e baixa eficiência em consultas. Em vez disso, recomenda-se o uso de um formato colunar, como **Parquet** ou **ORC**, que oferecem compressão nativa e são otimizados para grandes volumes de dados.
 
-A **Camada Raw** é estruturada para ser eficiente e escalável, garantindo que os dados brutos estejam disponíveis de forma compactada, organizada e pronta para o processamento diário na camada Silver.
+#### Recomendações para Escalabilidade e Eficiência
 
-A escolha do formato Parquet reflete a necessidade de balancear o armazenamento eficiente com o desempenho de leitura, criando uma base sólida para o fluxo de dados.
+1. **Agrupamento Periódico**: Consolidar dados em intervalos maiores, como semanal ou mensalmente, simplifica a organização e reduz o número de arquivos.
+
+2. **Uso de Formatos Colunares**: Formatos como Parquet ou ORC são ideais para armazenar grandes volumes de dados, melhorando a performance de leitura e reduzindo os custos de armazenamento.
+
+3. **Data Lakes: Utilizar data lakes (ex: AWS S3, Google Cloud Storage) permite o armazenamento incremental e particionado dos dados, melhorando a escalabilidade e a velocidade das consultas.
+
+#### Vantagens dos Formatos Colunares
+
+- **Economia de Armazenamento**: Parquet e ORC comprimem dados de forma nativa, otimizando o espaço em disco.
+- **Consultas Mais Rápidas**: Esses formatos são otimizados para consultas em colunas específicas, acelerando o processamento e reduzindo a quantidade de dados lida.
+- **Integração com Ferramentas de Big Data**: Amplamente compatíveis com plataformas como Spark, Hive , Bigquery e Redshift, esses formatos permitem análises avançadas e escaláveis.
+
+Essas adaptações tornam o fluxo de dados mais eficiente, escalável e sustentável para atender as demandas de um e-commerce de grande porte.
 

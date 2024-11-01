@@ -12,8 +12,9 @@ class GoldDataInserter:
         """
         Inicializa a classe GoldDataInserter.
 
-        :param silver_db: Caminho para o banco de dados silver.
-        :param gold_db: Caminho para o banco de dados gold.
+        parameters:
+            silver_db: Caminho para o banco de dados silver.
+            gold_db: Caminho para o banco de dados gold.
         """
         self.silver_db = silver_db
         self.gold_db = gold_db

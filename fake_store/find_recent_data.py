@@ -17,13 +17,26 @@ class FileType(Enum):
 
 class FindRecentData:
     def __init__(self, base_dir):
-        """Inicializa a classe com o diretório base."""
+        """
+        Inicializa a classe FindRecentData com o diretório base onde os dados
+        estão armazenados, organizado por ano, mês e dia.
+
+        Parameters:
+            base_dir (str): Caminho para o diretório base contendo os arquivos.
+        """
         self.base_dir = base_dir
         logging.info(f"Iniciando DataIngestion com base_dir: {self.base_dir}")
 
     def buscar_arquivos_recentes(self):
-        """Busca os arquivos mais recentes por tipo na estrutura de
-        diretórios especificada."""
+        """
+        Busca os arquivos mais recentes para cada tipo de dado
+        (carts, products, users, categories)
+        com base na estrutura de diretórios de ano,mês e dia.
+
+        returns:
+            tuple: Caminhos para os arquivos mais recentes de cada tipo,
+                    ou None se não existirem arquivos para um tipo específico.
+        """
         ano_recentes = self.obter_ano_recentes()
         if ano_recentes is None:
             logging.warning("Nenhum ano encontrado.")
@@ -41,8 +54,8 @@ class FindRecentData:
         )
         if dia_recentes_path is None:
             logging.warning(
-                f"Nenhum dia encontrado para o mês {mes_recentes}"
-                f" do ano {ano_recentes}."
+                f"""Nenhum dia encontrado para o mês {mes_recentes} do ano 
+                {ano_recentes}."""
             )
             return self._get_empty_results()
 
@@ -54,27 +67,78 @@ class FindRecentData:
         )
 
     def buscar_carts(self, dia_recentes_path):
-        """Busca o arquivo mais recente do tipo carts."""
+        """
+        Busca o arquivo mais recente do tipo 'carts' no diretório especificado.
+
+        parameters:
+            dia_recentes_path (str): Caminho para o diretório do dia mais recente.
+
+        returns:
+            str: Caminho do arquivo mais recente de 'carts',
+                 ou None se não encontrado.
+        """
         return self.buscar_arquivo_por_tipo(dia_recentes_path, FileType.CARTS)
 
     def buscar_products(self, dia_recentes_path):
-        """Busca o arquivo mais recente do tipo products."""
+        """
+        Busca o arquivo mais recente do tipo 'products' no diretório especificado.
+
+        parameters:
+            dia_recentes_path (str): Caminho para o diretório do dia mais recente.
+
+        returns:
+            str: Caminho do arquivo mais recente de 'products',
+                 ou None se não encontrado.
+        """
         return self.buscar_arquivo_por_tipo(
             dia_recentes_path, FileType.PRODUCTS
         )
 
     def buscar_users(self, dia_recentes_path):
-        """Busca o arquivo mais recente do tipo users."""
+        """
+        Busca o arquivo mais recente do tipo 'users' no diretório especificado.
+
+        parameters:
+            dia_recentes_path (str): Caminho para o diretório
+                                        do dia mais recente.
+
+        returns:
+            str: Caminho do arquivo mais recente de 'users',
+                 ou None se não encontrado.
+        """
         return self.buscar_arquivo_por_tipo(dia_recentes_path, FileType.USERS)
 
     def buscar_categories(self, dia_recentes_path):
-        """Busca o arquivo mais recente do tipo categories."""
+        """
+        Busca o arquivo mais recente do tipo 'categories' no diretório
+        especificado.
+
+        parameters:
+            dia_recentes_path (str): Caminho para o diretório
+                                     do dia mais recente.
+
+        returns:
+            str: Caminho do arquivo mais recente de
+                 'categories', ou None se não encontrado.
+        """
         return self.buscar_arquivo_por_tipo(
             dia_recentes_path, FileType.CATEGORIES
         )
 
     def buscar_arquivo_por_tipo(self, dia_recentes_path, tipo):
-        """Busca o arquivo mais recente de um tipo específico."""
+        """
+        Encontra o arquivo mais recente de um tipo
+        específico no diretório fornecido.
+
+        parameters:
+            dia_recentes_path (str): Caminho para o diretório do dia mais recente.
+            tipo (FileType): Tipo do arquivo a ser buscado
+            (carts, products, users, categories).
+
+        returns:
+            str: Caminho para o arquivo mais recente do
+                 tipo especificado, ou None se não encontrado.
+        """
         arquivos = [
             arquivo
             for arquivo in os.listdir(dia_recentes_path)
@@ -88,14 +152,22 @@ class FindRecentData:
             return None
 
         arquivos.sort(key=self.extraindo_data_arquivo)
-        arquivo_recente = arquivos[-1]  # O último da lista é o mais recente
+        arquivo_recente = arquivos[-1]
         logging.info(
             f"Arquivo recente encontrado para {tipo.value}: {arquivo_recente}"
         )
         return os.path.join(dia_recentes_path, arquivo_recente)
 
     def obter_ano_recentes(self):
-        """Obtém o ano mais recente no diretório base."""
+        """
+        Obtém o ano mais recente no diretório base,
+        considerando que os subdiretórios
+        representam os anos em formato numérico.
+
+        parameters:
+            str: Ano mais recente como string,
+                 ou None se nenhum diretório de ano for encontrado.
+        """
         anos = [
             d
             for d in os.listdir(self.base_dir)
@@ -106,7 +178,16 @@ class FindRecentData:
         return ano_recentes
 
     def obter_mes_recentes(self, ano):
-        """Obtém o mês mais recente para o ano fornecido."""
+        """
+        Obtém o mês mais recente para o ano fornecido no diretório base.
+
+        parameters:
+            ano (str): Ano para o qual o mês mais recente será buscado.
+
+        returns:
+            str: Mês mais recente como string,
+                 ou None se nenhum mês for encontrado.
+        """
         mes_dir = os.path.join(self.base_dir, ano)
         meses = [
             d
@@ -120,7 +201,17 @@ class FindRecentData:
         return mes_recentes
 
     def obter_dia_recentes_path(self, ano, mes):
-        """Obtém o caminho do dia mais recente para o ano e mês fornecidos."""
+        """
+        Obtém o caminho do dia mais recente para um dado ano e mês.
+
+        parameters:
+            ano (str): Ano do diretório.
+            mes (str): Mês do diretório.
+
+        returns:
+            str: Caminho completo para o
+                 diretório do dia mais recente, ou None se não encontrado.
+        """
         dia_dir = os.path.join(self.base_dir, ano, mes)
         dias = [
             d
@@ -135,20 +226,35 @@ class FindRecentData:
         dia_recentes = max(dias, key=int)
         dia_recentes_path = os.path.join(dia_dir, dia_recentes)
         logging.info(
-            f"Dia mais recente encontrado: {dia_recentes}"
-            f" com caminho: {dia_recentes_path}"
+            f"""Dia mais recente encontrado: {dia_recentes}
+            com caminho: {dia_recentes_path}"""
         )
         return dia_recentes_path
 
     @staticmethod
     def extraindo_data_arquivo(arquivo):
-        """Extrai e converte a data do nome do arquivo."""
+        """
+        Extrai e converte a data do nome do arquivo para comparação.
+
+        parameters:
+            arquivo (str): Nome do arquivo com data no formato '%Y%m%d%H%M%S'.
+
+        returns:
+            datetime: Objeto datetime representando a data extraída.
+        """
         data_str = arquivo.split("_")[1].split(".")[0]
         return datetime.strptime(data_str, "%Y%m%d%H%M%S")
 
     @staticmethod
     def _get_empty_results():
-        """Retorna uma tupla com None para cada tipo de arquivo."""
+        """
+        Retorna uma tupla de resultados vazios,
+        indicando ausência de arquivos recentes.
+
+        parameters:
+            tuple: Uma tupla com None para cada tipo de arquivo
+                   (carts, products, users, categories).
+        """
         return (None,) * len(FileType)
 
 

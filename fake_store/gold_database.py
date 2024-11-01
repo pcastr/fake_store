@@ -7,7 +7,7 @@ logging.basicConfig(
 )
 
 
-class DatabaseSilver:
+class GoldDatabase:
     """
     Gerencia a conexão e inicialização do banco de dados.
     """
@@ -16,7 +16,7 @@ class DatabaseSilver:
         """
         Inicializa o gerenciador de banco de dados.
 
-        Args:
+        parameters:
             db_path (str): Caminho do diretório onde o arquivo do
                            banco de dados será salvo.
             db_name (str): Nome do arquivo do banco de dados.
@@ -75,7 +75,7 @@ class DatabaseSilver:
 
 # Exemplo de uso
 if __name__ == "__main__":
-    db_manager = DatabaseSilver(
+    db_manager = GoldDatabase(
         db_path="data/gold", db_name="fake_store_gold.db"
     )
     db_manager.initialize_database()

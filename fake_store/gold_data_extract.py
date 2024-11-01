@@ -3,12 +3,13 @@ import os
 import sqlite3
 
 
-class DatabaseExporter:
+class GoldDataExtract:
     def __init__(self, db_path):
         """
         Inicializa a conexão com o banco de dados SQLite.
 
-        :param db_path: Caminho para o arquivo do banco de dados SQLite.
+        parameters:
+            db_path: Caminho para o arquivo do banco de dados SQLite.
         """
         self.db_path = db_path
 
@@ -16,8 +17,9 @@ class DatabaseExporter:
         """
         Exporta os dados de uma tabela SQLite para um arquivo CSV.
 
-        :param table_name: Nome da tabela a ser exportada.
-        :param csv_path: Caminho para o arquivo CSV de saída.
+        parameters:
+            table_name: Nome da tabela a ser exportada.
+            csv_path: Caminho para o arquivo CSV de saída.
         """
         output_dir = os.path.dirname(csv_path)
         if output_dir and not os.path.exists(output_dir):
@@ -51,7 +53,7 @@ class DatabaseExporter:
 
 
 # Exemplo de uso:
-db_exporter = DatabaseExporter("data/gold/fake_store_gold.db")
+db_exporter = GoldDataExtract("data/gold/fake_store_gold.db")
 db_exporter.export_to_csv(
     "user_cart_insights", "data/marts/user_cart_insights.csv"
 )

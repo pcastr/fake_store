@@ -74,7 +74,28 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Camada Raw: raw.md
+  - Camada Raw:
+    - intro: raw.md
+    - Classes:
+      - modelo de dados: models.md
+      - DataExtractor: data_extractor.md
+
+  - Camada Silver:
+    - intro: silver/silver.md
+    - Classes:
+        FindRecentData: find_recent_data.md
+        CartIngestion: silver/silver_cart_ingestion.md
+        ProductIngestion: silver/silver_products_ingestion.md
+        CategoryIngestion: silver/silver_category_ingestion.md
+        UserIngestion: silver/silver_user_ingestion.md
+
+  - Camada Gold:
+    - intro: gold/gold.md
+    - Classes:
+        GoldDatainserter: gold/gold_insights_ingestion.md
+        GoldDataExtract: gold/gold_data_extract.md
+        GoldDatabase: gold/gold_database.md
+
 
 extra_css:
   - stylesheets/extra.css
