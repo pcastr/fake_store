@@ -1,7 +1,7 @@
 # Camada Silver
 
 <p align="center">
-    <img src="./assets/fluxo-geral.svg" alt="Fluxo Geral" />
+    <img src="../../assets/fluxo-geral.svg" alt="Fluxo Geral" />
 </p>
 
 Depois que os dados são extraídos e salvos em `.json` na camada raw, o próximo passo é transformar esses dados para que possam ser armazenados de forma estruturada em um banco de dados na camada **Silver**.
@@ -17,7 +17,7 @@ A camada Silver é onde ocorre a **organização e estruturação** dos dados ex
 - **Validação**: Verificação da integridade dos dados para garantir consistência e conformidade com o schema definido.
 
 <p align="center">
-    <img src="./assets/silverdb.svg" alt="Banco de Dados Silver" />
+    <img src="../../assets/silverdb.svg" alt="Banco de Dados Silver" />
 </p>
 
 ## Vantagens do SQLite para a Camada Silver

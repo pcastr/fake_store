@@ -50,21 +50,14 @@ poetry install
 poetry shell
 ```
 
-3. **Suba o ambiente Docker**
-```bash
-docker-compose up -d
-```
-
-3. **Suba o ambiente Docker**
-```bash
-docker-compose up -d
-```
-5. **Acesse o Streamlit**
+`
+3. **Acesse o Streamlit**
 * Rode o Streamlit para visualizar os dashboards e baixar os dados:
 ```bash
 streamlit run dashboard/app.py
 ```
-* Acesse o Streamlit em http://localhost:8501
+
+* Ou acesse Streamlit em [https://fakestore.streamlit.app/]("https://fakestore.streamlit.app/")
 
 ## Estrutura de Pastas
 ```Bash
@@ -74,14 +67,13 @@ streamlit run dashboard/app.py
 │   ├── gold/
 │   ├── raw/
 │   └── silver/
-├── docker-compose.yml
 ├── docs/                     # Domumentação
 ├── fake_store/               # Scripts
 ├── mkdocs.yml
 ├── poetry.lock
 ├── pyproject.toml
 ├── README.md
-├── streamlit/                # Aplicação Streamlit
+├── app.py               # Aplicação Streamlit
 └── tests/                    # Testes
 ```
 

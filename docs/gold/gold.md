@@ -1,7 +1,7 @@
 # Camada Gold
 
 <p align="center">
-    <img src="./assets/fluxo-geral.svg" alt="Fluxo Geral" />
+    <img src="../../assets/fluxo-geral.svg" alt="Fluxo Geral" />
 </p>
 
 A **Camada Gold** representa a etapa final do nosso fluxo de dados, onde os dados extraídos da camada Silver são processados e organizados em uma tabela final, pronta para análise e relatórios. Nesta camada, focamos em consolidar informações relevantes sobre o comportamento dos usuários, gerando insights que podem ser utilizados para melhorar a experiência do cliente e otimizar as operações de e-commerce.
@@ -15,7 +15,7 @@ A tabela final da Camada Gold contém os seguintes campos:
 - **Data Mais Recente de Adição ao Carrinho**: A data e hora em que o usuário adicionou produtos pela última vez ao carrinho.
 - **Categoria com Maior Quantidade de Produtos**: A categoria de produtos em que o usuário tem a maior quantidade de itens adicionados ao carrinho, proporcionando insights sobre suas preferências de compra.
 
-Esses dados são organizados em um arquivo `.csv` que pode ser encontrado na pasta `data/marts/` ou acessado diretamente pelo webapp Streamlit.
+Esses dados são organizados em um arquivo `.csv` que pode ser encontrado na pasta `data/marts/` ou acessado diretamente pelo [webapp Streamlit]("https://fakestore.streamlit.app/).
 
 ## Vantagens da Camada Gold
 
