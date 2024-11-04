@@ -15,10 +15,25 @@ logging.basicConfig(
 
 
 class DataExtractor:
+    """Classe responsável por extrair, validar e salvar dados de uma API."""
+
     BASE_API_URL = "https://fakestoreapi.com"
 
     @staticmethod
     def fetch_data(endpoint: str) -> List[dict]:
+        """
+        Faz uma requisição GET para buscar dados da API no endpoint fornecido.
+
+        Args:
+            endpoint (str): O URL do endpoint da API a ser acessado.
+
+        Returns:
+            List[dict]: Uma lista de dicionários contendo os dados retornados.
+
+        Raises:
+            requests.HTTPError: Caso a resposta da API tenha um erro HTTP.
+            requests.RequestException: Para qualquer outro erro de requisição.
+        """
         logging.info(f"Buscando dados de: {endpoint}")
         try:
             response = requests.get(endpoint)
@@ -34,6 +49,20 @@ class DataExtractor:
 
     @staticmethod
     def validate_data(data: List[dict], data_type: str) -> List[dict]:
+        """
+        Valida e filtra dados recebidos da API de acordo com o tipo.
+
+        Args:
+            data (List[dict]): Lista de dados não validados da API.
+            data_type (str): O tipo de dados a serem validados
+                             ("categories", "products", "users" ou "carts").
+
+        Returns:
+            List[dict]: Lista de dados validados e prontos para serialização.
+
+        Raises:
+            ValidationError: Em caso de erro na validação dos dados de entrada.
+        """
         validated_data = []
         if data_type == "categories":
             if isinstance(data, list):
@@ -63,6 +92,22 @@ class DataExtractor:
 
     @staticmethod
     def serialize_data(data: List[dict]) -> List[Dict[str, Any]]:
+        """
+        Converte objetos de dados para um formato JSON serializável,
+        especialmente datas.
+
+        Args:
+            data (List[dict]): Lista de dicionários de dados a serem
+                               serializados.
+
+        Returns:
+            List[Dict[str, Any]]: Lista de dados serializados prontos para
+                                  armazenamento.
+
+        Raises:
+            TypeError: Caso um objeto não seja serializável para JSON.
+        """
+
         def convert_datetime(obj):
             if isinstance(obj, datetime):
                 return obj.isoformat()
@@ -80,6 +125,18 @@ class DataExtractor:
 
     @staticmethod
     def save_to_json(data: List[dict], endpoint: str):
+        """
+        Salva os dados validados em um arquivo JSON, organizando-os em
+        pastas por data.
+
+        Args:
+            data (List[dict]): Lista de dados validados a serem salvos.
+            endpoinl (str): Nome do endpoint ou tipo de dados, usado para
+                            nomear o arquivo.
+
+        Raises:
+            OSError: Caso ocorra um erro ao criar o diretório ou ao salvar o arquivo.
+        """
         if not data:
             logging.info("Nenhum dado para salvar.")
             return
@@ -105,6 +162,18 @@ class DataExtractor:
 
     @classmethod
     def run_data_extraction(cls, data_type: str):
+        """
+        Executa o processo completo de extração de dados: busca, validação e
+        salvamento.
+
+        Args:
+            data_type (str): O tipo de dados a serem extraídos
+                             ("products", "users", "carts", "categories").
+
+        Raises:
+            requests.RequestException: Para erros de rede ao buscar os dados.
+            ValidationError: Para erros de validação dos dados recebidos.
+        """
         endpoint_map = {
             "products": f"{cls.BASE_API_URL}/products",
             "users": f"{cls.BASE_API_URL}/users",
