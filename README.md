@@ -12,7 +12,7 @@ Este projeto de Engenharia de Dados realiza o processamento de dados da [Fake St
 O pipeline segue uma arquitetura de camadas, com os seguintes estágios:
 
 1. **Camada Raw**: Ingestão dos dados brutos da API Fake Store e armazenamento em formato JSON.
-2. **Camada Silver**: Transformação dos dados de PARQUET para tabelas no SQLite.
+2. **Camada Silver**: Transformação dos dados de JSON para tabelas no SQLite.
 3. **Camada Gold**: Limpeza, transformação e modelagem dos dados na base SQLite, preparando-os para análise.
 4. **Visualização e Exportação**: Dashboard interativo em Streamlit com indicadores-chave e opção de download dos dados em CSV.
 
